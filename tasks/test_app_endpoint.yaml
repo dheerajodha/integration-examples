@@ -11,7 +11,7 @@ spec:
     - default: 'default'
       name: NAMESPACE
       description: Namespace of the application under test
-    - default: "Hello World"
+    - default: "Hello World!"
       name: EXPECTED_OUTPUT
       description: Expected output of the application endpoint
     - default: ""
@@ -34,7 +34,10 @@ spec:
       script: |
         #!/usr/bin/env bash
         export KUBECONFIG=$(workspaces.cluster-credentials.path)/kubeconfig
-        
+
+        echo "Namaste"
+        sleep 30
+
         # Get the route for the application endpoint
         COMPONENT_NAME=$(echo -n ${SNAPSHOT} | jq -r .components[0].name)
         # The --insecure-skip-tls-verify option is added for local testing
@@ -43,9 +46,9 @@ spec:
         ROUTE_NAME=$(oc get routes -l app.kubernetes.io/name="${COMPONENT_NAME}" -o name --insecure-skip-tls-verify)
         HOST=$(oc get "${ROUTE_NAME}" -o jsonpath={.spec.host} -n "${NAMESPACE}" --insecure-skip-tls-verify)
         echo "Found target host ${HOST} for app ${APPLICATION_NAME}"
-        
+
         # Check the application endpoint
-        ENDPOINT_OUTPUT=$(curl -k https://${HOST}:${PORT})
+        ENDPOINT_OUTPUT=$(curl -k http://${HOST}:${PORT})
         echo -e "The endpoint outputs the following:\n ${ENDPOINT_OUTPUT}"
         echo -e "Expected endpoint output:\n ${EXPECTED_OUTPUT}"
         
