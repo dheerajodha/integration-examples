@@ -30,9 +30,9 @@ spec:
         resolver: git
         params:
           - name: url
-            value: https://github.com/redhat-appstudio/integration-examples
+            value: https://github.com/dheerajodha/integration-examples
           - name: revision
-            value: main
+            value: add-retry
           - name: pathInRepo
             value: tasks/test_app_endpoint.yaml
       params:

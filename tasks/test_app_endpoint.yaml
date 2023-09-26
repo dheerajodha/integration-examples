@@ -45,7 +45,7 @@ spec:
         echo "Found target host ${HOST} for app ${APPLICATION_NAME}"
         
         # Check the application endpoint
-        ENDPOINT_OUTPUT=$(curl -k https://${HOST}:${PORT})
+        ENDPOINT_OUTPUT=$(curl --retry 30 --retry-delay 2 -k https://${HOST}:${PORT})
         echo -e "The endpoint outputs the following:\n ${ENDPOINT_OUTPUT}"
         echo -e "Expected endpoint output:\n ${EXPECTED_OUTPUT}"
         
